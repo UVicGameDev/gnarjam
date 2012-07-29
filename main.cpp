@@ -27,12 +27,19 @@ float dist(const sf::Vector2f& v1, const sf::Vector2f& v2)
 }
 
 float dist(const sf::Sprite& s1, const sf::Sprite& s2) {
-	return dist(s1.GetCenter(), s2.GetCenter());
+	return dist(s1.GetPosition() + 0.5f* s1.GetSize(), s2.GetPosition() + 0.5f*s2.GetSize());
 }
 
 float sign(float x)
 {
 	return x > 0 ? 1 : -1;
+}
+
+template<class T>
+std::ostream& operator<<(std::ostream& os, const sf::Vector2<T>& v)
+{
+	os << "{ " << v.x << ", " << v.y << " }";
+	return os;
 }
 
 int main()
@@ -135,7 +142,7 @@ int main()
 				if (p1.attackedinduel && !p2.attackedinduel) victor = 0;
 				else if (!p1.attackedinduel && p2.attackedinduel) victor = 1;
 				else if (p1.attackedinduel && p2.attackedinduel) {
-					if (p1.atkdist > p2.atkdist) {
+					if (p1.atkdist < p2.atkdist) {
 						victor = 0;
 					} else {
 						victor = 1;
